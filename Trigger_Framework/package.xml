@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trigger Framework</fullName>
+    <description>Trigger Framework</description>
+    <types>
+        <members>TriggerDispatcher</members>
+        <members>TriggerDispatcherTest</members>
+        <members>TriggerException</members>
+        <members>TriggerInterface</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>TriggerFrameWork</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Trigger_Framework</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>Transaction_Log__c.Class_Name__c</members>
+        <members>Transaction_Log__c.Error_Log__c</members>
+        <members>Transaction_Log__c.Exception_Time__c</members>
+        <members>Transaction_Log__c.Process_Name__c</members>
+        <members>Trigger_Setting__c.After_Delete__c</members>
+        <members>Trigger_Setting__c.After_Insert__c</members>
+        <members>Trigger_Setting__c.After_Undelete__c</members>
+        <members>Trigger_Setting__c.After_Update__c</members>
+        <members>Trigger_Setting__c.Before_Delete__c</members>
+        <members>Trigger_Setting__c.Before_Insert__c</members>
+        <members>Trigger_Setting__c.Before_Update__c</members>
+        <members>Trigger_Setting__c.Disabled__c</members>
+        <members>Trigger_Setting__c.Object_Name__c</members>
+        <members>Trigger_Setting__c.Prevent_Recursion__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Transaction_Log__c</members>
+        <members>Trigger_Setting__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Configuration_Guide</members>
+        <members>Transaction_Log__c</members>
+        <members>Trigger_Setting__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Transaction_Log__c-Transaction Log Layout</members>
+        <members>Trigger_Setting__c-Trigger Setting Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Transaction_Log__c.All</members>
+        <members>Trigger_Setting__c.All</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Trigger_Framework</members>
+        <members>Trigger_Framework/Object_Trigger_Settings</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>TriggerSetting</members>
+        <name>StaticResource</name>
+    </types>
+    <version>41.0</version>
+</Package>
