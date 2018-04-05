@@ -1,0 +1,106 @@
+<apex:page >
+    <!-- showHeader="false" sidebar="false" -->
+    <apex:slds />
+    <div class="slds-page-header slds-p-around_small">
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-account" title="Description of icon when needed">
+                    <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" 
+                             xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/custom-sprite/svg/symbols.svg#custom19')}" />
+                    </svg>
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" 
+                    title="SFDC Panther Trigger Architecture Framework Recepie">SFDC Panther Trigger 
+                    Architecture Framework Recipe</h1>
+                <p class="slds-text-body_small slds-line-height_reset"> </p>
+            </div>
+        </div>
+    </div>
+    <div class="slds-p-around_small">
+        <h1 style="font-size:1rem;">
+            Trigger Framework Configuration
+        </h1>
+    </div>
+    <div class="slds-p-top_small slds-p-around_small" style="overflow:auto;width:100%;height:520px; font-size: 14px;">
+        <ol>
+            <li><strong> STEP 1 - </strong>Create <strong>Trigger Settings Record </strong>for the Object for which you want to control the trigger!</li>
+            <div style="text-align:justify;">
+                <br/> &nbsp;&nbsp; Before you start using this framework you need to create the Trigger Setting record with the required setting.
+                <br/><apex:image url="{!URLFOR($Resource.TriggerSetting, 'Trigger_Setting/TriggerSettingsStep1.png')}"/>
+                <br/><apex:image url="{!URLFOR($Resource.TriggerSetting, 'Trigger_Setting/TriggerSettingsStep2.png')}"/>
+                <br/> &nbsp;&nbsp; <strong>To Prevent the trigger from recursion, Enter the Field API name comma seperated into Prevent Recursion Field.</strong>
+                <br/> &nbsp;&nbsp; &nbsp;&nbsp; For Example, trigger is in Account and you wanted to execute the trigger whenever there is 
+                any change in Account Name and then with some criteria updating 
+                <br/>&nbsp;&nbsp; &nbsp;&nbsp; the AccountNumber then the value will only be Name. 
+                <br/> &nbsp;&nbsp; &nbsp;&nbsp; You can put more than one field but all field API name must be comma seperated.
+                <br/><apex:image url="{!URLFOR($Resource.TriggerSetting, 'Trigger_Setting/TriggerSettingsStep3.png')}"/>
+            </div>
+            <li class="slds-p-top_small"><strong> STEP 2 - </strong>Create <strong>Handler Class of the Trigger </strong></li>
+            <div style="text-align:justify;" >
+                <br/> &nbsp;&nbsp; Naming conversion of the handler class must be the Trigger name followed by Handler. 
+                <br/> &nbsp;&nbsp; For Example, If trigger name is <strong>AccountTrigger</strong> then handler class will be 
+                <strong>AccountTriggerHandler</strong>. 
+                <br/> &nbsp;&nbsp; Handler class must implement <strong>TriggerInterface</strong> interface and it's all methods.
+                For Example, <Strong style="color:red;">public class AccountTriggerHandler implements TriggerInterface</Strong>
+                <br/> &nbsp;&nbsp; <Strong>Sample Handler class for Account Trigger is given below :</Strong><br/>
+                <script src="https://gist.github.com/amitastreait/75b1efc655d1af7e0a9a3c1857775d6b.js">
+                </script>
+            </div>
+            <li class="slds-p-top_small"><strong> STEP 3 - </strong>Create <strong>Trigger </strong></li>
+            <div style="text-align:justify;" >
+                <br/> &nbsp;&nbsp; Naming conversion for the Trigger must be the Object name followed by Trigger. 
+                <br/> &nbsp;&nbsp; For Example, If you are developing the trigger on Account Object then Trigger name will be
+                <strong>AccountTrigger</strong>. 
+                <br/> &nbsp;&nbsp;&nbsp;We do not need to use __c while developing the Trigger for Custom Object. For Example,
+                <strong>MyCustomObject__c</strong> then Trigger name will be <strong>MyCustomObjectTrigger</strong>. 
+            </div>
+            <li class="slds-p-top_small"><strong> STEP 4 - </strong> <strong>Hookup the Trigger </strong></li>
+            <div style="text-align:justify;" >
+                <br/> &nbsp;&nbsp; Put the only line in the Trigger. 
+                <strong style="color:red;">TriggerDispatcher.run(new AccountTriggerHandler() , 'Account');</strong>
+                <br/> &nbsp;&nbsp;<strong>While calling TriggerDispatcher class method you need to pass two arguments</strong>. 
+                <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>1 :- </strong>Instance of handler class. If handler class is 
+                <strong>AccountTriggerHandler</strong> then you need to pass <strong>new AccountTriggerHandler()</strong>
+                <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>2 :- </strong> Name of the Object trigger is built 
+                on(Execlude __c and all spaces if trigger is on Custom Object).
+                <br/> &nbsp;&nbsp;<br/>For Example, Trigger is on <strong>Account</strong> Object and Handler name is 
+                <strong>AccountTriggerHandler</strong> then sample
+                trigger is given below:-
+                <script src="https://gist.github.com/amitastreait/4845877f71ffdf367e50c85e2c6a04fb.js">
+                </script>
+            </div>
+            <li class="slds-p-top_small"><strong> STEP 5 - </strong> <strong>Catch the Exception </strong></li>
+            <div style="text-align:justify;" >
+                <br/> &nbsp;&nbsp; Framework can catch and track the Exception.
+                <br/> &nbsp;&nbsp; To catch the Exception Call <strong>doHandleException</strong> method of <strong>TransactionLogHandler</strong>.
+                <br/> &nbsp;&nbsp; Sample code is <strong style="color:red">TransactionLogHandler.doHandleException(ex , 'AccountTriggerHandler');</strong>
+                <br/> &nbsp;&nbsp; this method required two parameters 
+                <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>1 :- </strong> Instance of Exception Class.
+                <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>2 :- </strong> Name of Handler Class.
+            </div>
+            <li class="slds-p-top_small"><strong> STEP 6 - </strong> <strong>See the Report </strong></li>
+            <div style="text-align:justify;" >
+                <br/> &nbsp;&nbsp; Using Framework you can easily see which object has an active trigger
+                and in which event trigger will execute. For this, the packae already <br/>&nbsp;&nbsp; contains the report name <Strong>Object Trigger Settings</Strong>
+                <br/><apex:image url="{!URLFOR($Resource.TriggerSetting, 'Trigger_Setting/TriggerReport.png')}"/>
+            </div>
+            <li class="slds-p-top_small"><strong> STEP 7 - </strong> <strong>Control Trigger Functions From UI </strong></li>
+            <div style="text-align:justify;" >
+                <br/> &nbsp;&nbsp; With the help of this trigger framework you can control the trigger from the UI.
+                <br/> &nbsp;&nbsp; For Example, You wanted to disable the trigger in production but due to salesforce limitation 
+                you can not edit the trigger in producton. So, using this trigger you  
+                <br/> &nbsp;&nbsp;can check the <strong>disabled?</strong> checkbox to true and trigger is now deactivated.
+                <br/> &nbsp;&nbsp; You can also control the event by unchecking the corresponding chechbox field.
+            </div>
+            <li class="slds-p-top_small slds-p-around_small"></li>
+        </ol>
+        <div style="text-align:center; font-size:19px;">
+            ERD<br/>
+            <apex:image url="{!URLFOR($Resource.TriggerSetting, 'Trigger_Setting/ERD_Trigger_Framework.png')}"/>
+            <li class="slds-p-top_small slds-p-around_small"></li>
+        </div>
+    </div>
+</apex:page>
